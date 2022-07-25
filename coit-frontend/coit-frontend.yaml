@@ -12,7 +12,7 @@ spec:
 
   spec:
       containers:
-        - image: chittiinfo/coit-frontend:v15
+        - image: chittiinfo/coit-frontend:latest 
           env:
             - name: COIT_BACKEND_URL
               value: "http://coit-backend1.102.12.12.12.45.sslipv.io"
