@@ -1,12 +1,37 @@
-This repository contains the source files needed to follow the series [Kubernetes and everything else](https://rinormaloku.com/series/kubernetes-and-everything-else/) or summarized as an article in [Learn Kubernetes in Under 3 Hours: A Detailed Guide to Orchestrating Containers](https://medium.freecodecamp.org/learn-kubernetes-in-under-3-hours-a-detailed-guide-to-orchestrating-containers-114ff420e882)
+## Packaging the application
+` $ mvn install`
 
-To learn more about Kubernetes and other related topics check the following examples with the **Sentiment Analysis** application:
+## Running the application
+` $ java -jar sentiment-analysis-web-0.0.1-SNAPSHOT.jar --sa.logic.api.url=http://localhost:5000 ` 
 
-* [Kubernetes Volumes in Practice](https://rinormaloku.com/kubernetes-volumes-in-practice/):
-* [Ingress Controller - simplified routing in Kubernetes](https://www.orange-networks.com/blogs/210-ingress-controller-simplified-routing-in-kubernetes)
-* [Docker Compose in Practice](https://github.com/rinormaloku/k8s-mastery/tree/docker-compose)
-* [Istio around everything else series](https://rinormaloku.com/series/istio-around-everything-else/)
-* [Simple CI/CD for Kubernetes with Azure DevOps](https://www.orange-networks.com/blogs/224-azure-devops-ci-cd-pipeline-to-deploy-to-kubernetes)
-* Envoy series - to be added!
-# this is test pls ignore
-# this is second test pls ignore
+## Building the container
+` $ docker build -f Dockerfile -t $DOCKER_USER_ID/sentiment-analysis-web-app . `
+
+## Running the container
+``` 
+$ docker run -d -p 8080:8080 -e SA_LOGIC_API_URL='http://<container_ip or docker machine ip>:5000' $DOCKER_USER_ID/sentiment-analysis-web-app  
+```
+
+#### Native docker support needs the Container IP
+CONTAINER_IP: To forward messages to the sa-logic container we need to get  its IP. To do so execute:
+
+` $ docker container list`
+
+Copy the id of sa-logic container and execute:
+
+` $ docker inspect <container_id> `
+
+The Containers IP address is found under the property NetworkSettings.IPAddress, use it in the RUN command.
+
+#### Docker Machine on a VM 
+Get Docker Machine IP by executing:
+
+` $ docker-machine ip `
+
+Use this one in the command.
+
+
+## Pushing the container
+` $ docker push $DOCKER_USER_ID/sentiment-analysis-web-app `
+
+

@@ -1,4 +1,0 @@
-Werkzeug==0.16.1
-Flask
-textblob==0.15.0
-markupsafe==2.0.1
