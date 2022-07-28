@@ -5,7 +5,7 @@ node('built-in') {
 
 stage('Continuous Build_Prod') {
     sh '''cd coit-frontend
-docker build -t chittiinfo/coit-frontend:${APP_VERSION} . -f Dockerfile-multistage '''
+docker build -t chittiinfo/coit-frontend:latest . -f Dockerfile-multistage '''
 }
 
 stage('Continuous Testing_Prod') {
@@ -13,13 +13,13 @@ stage('Continuous Testing_Prod') {
 }
 
 stage('Continuous Depolyment_Prod') {
-    sh 'docker push chittiinfo/coit-frontend:${APP_VERSION}'
+    sh 'docker push chittiinfo/coit-frontend:latest'
 }
 
 stage('Continuous Delivery_Prod') {
     sh '''cd coit-frontend
 kubectl apply -f "coit-frontendScaletoZero.yaml"
-kn service update coit-frontend --image chittiinfo/coit-frontend:${APP_VERSION}  --port 80 --scale-min 5 --scale-max 100 -n prod
+kn service update coit-frontend --image chittiinfo/coit-frontend:latest  --port 80 --scale-min 5 --scale-max 100 -n prod
 '''
 }
 
